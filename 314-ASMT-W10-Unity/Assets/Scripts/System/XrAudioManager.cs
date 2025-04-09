@@ -29,6 +29,13 @@ public class XrAudioManager : MonoBehaviour
     [SerializeField] AudioSource[] cabinetDoorSound;
     [SerializeField] AudioClip cabinetDoorMoveClip;
 
+    [Header("ComboLock")]
+    [SerializeField] CombinationLock combinationLock;
+    [SerializeField] AudioSource combinationLockSound;
+    [SerializeField] AudioClip ComboLockButtonPressedClip;
+    [SerializeField] AudioClip ComboLockLockedClip;
+    [SerializeField] AudioClip ComboLockUnlockedClip;
+
     [Header("The Wall")]
     [SerializeField] TheWall wall;
     [SerializeField] XRSocketInteractor wallSocket;
@@ -57,6 +64,10 @@ public class XrAudioManager : MonoBehaviour
             {
                 SetCabinetDoors(i);
             }
+        }
+        if (combinationLock != null)
+        {
+            SetComboLock();
         }
         if (wall != null)
         {
@@ -91,6 +102,43 @@ public class XrAudioManager : MonoBehaviour
             drawerSocketSound.clip = drawerSocketClip;
             drawerSocket.selectEntered.AddListener(OnDrawerSocketed);
         }
+    }
+    private void SetComboLock()
+    {
+        combinationLockSound = combinationLock.transform.AddComponent<AudioSource>();
+        ComboLockButtonPressedClip = combinationLock.GetComboLockButtonPressedClip;
+        CheckClip(ref ComboLockButtonPressedClip);
+        ComboLockLockedClip = combinationLock.GetComboLockLockedClip;
+        CheckClip(ref ComboLockLockedClip);
+        ComboLockUnlockedClip = combinationLock.GetComboLockUnlockedClip;
+        CheckClip(ref ComboLockUnlockedClip);
+
+        combinationLock.buttonPressedAudioAction += OnComboButtonPress;
+        combinationLock.lockedAudioAction += OnComboLocked;
+        combinationLock.unlockedAudioAction += OnComboUnlocked;
+    }
+
+    private void OnComboButtonPress(CombinationLock arg0)
+    {
+        combinationLockSound.clip = ComboLockButtonPressedClip;
+        combinationLockSound.Play();
+    }
+
+    private void OnComboLocked(CombinationLock arg0)
+    {
+        combinationLockSound.clip = ComboLockLockedClip;
+        combinationLockSound.Play();
+    }
+
+    private void OnComboUnlocked(CombinationLock arg0)
+    {
+        combinationLockSound.clip = ComboLockUnlockedClip;
+        combinationLockSound.Play();
+    }
+
+    private void OnComboButtonPressed()
+    {
+
     }
     private void OnDrawerSocketed(SelectEnterEventArgs arg0)
     {

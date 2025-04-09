@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -16,6 +17,22 @@ public class CombinationLock : MonoBehaviour
 
     public bool isLocked;
     [SerializeField] string passcode = "134";
+
+    private void Onbuttonpress() => buttonPressedAudioAction?.Invoke(this);
+    private void OnUnlocked() => unlockedAudioAction?.Invoke(this);
+    private void OnLocked() => lockedAudioAction?.Invoke(this);
+
+
+    public UnityAction<CombinationLock> buttonPressedAudioAction;
+    public UnityAction<CombinationLock> unlockedAudioAction;
+    public UnityAction<CombinationLock> lockedAudioAction;
+
+    public AudioClip GetComboLockButtonPressedClip => ComboLockButtonPressedClip;
+    [SerializeField] AudioClip ComboLockButtonPressedClip;
+    public AudioClip GetComboLockLockedClip => ComboLockLockedClip;
+    [SerializeField] AudioClip ComboLockLockedClip;
+    public AudioClip GetComboLockUnlockedClip => ComboLockUnlockedClip;
+    [SerializeField] AudioClip ComboLockUnlockedClip;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +48,7 @@ public class CombinationLock : MonoBehaviour
 
     private void OnComboButtonPressed(SelectEnterEventArgs arg0)
     {
+        Onbuttonpress();
         for (int i = 0; i < comboButtons.Length; i++) //Detect which button was pressed
         {
             if (arg0.interactableObject.transform.name == comboButtons[i].transform.name)
@@ -46,11 +64,13 @@ public class CombinationLock : MonoBehaviour
         if (userInputText.text.Length > passcode.Length)
         {
             ResetUserInput();
+            OnLocked();
         }
 
         if (userInputText.text == passcode)
         {
             isLocked = false;
+            OnUnlocked();
         }
         else
         {
