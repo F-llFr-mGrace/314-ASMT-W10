@@ -51700,8 +51700,11 @@ MonoBehaviour:
   activatedSound: {fileID: 1786402965}
   grabActivatedClip: {fileID: 8300000, guid: a7d20e9f23bd7cc449823e482e098902, type: 3}
   wandActivatedClip: {fileID: 8300000, guid: 79f0548b92e2b2c48a00514b4f9aa04a, type: 3}
+  drawer: {fileID: 8884346408297993648}
+  drawerSound: {fileID: 0}
+  drawerMoveClip: {fileID: 0}
   wall: {fileID: 1198122166}
-  wallSource: {fileID: 1962795901}
+  wallSound: {fileID: 0}
   destroyWallClip: {fileID: 0}
   fallBackClip: {fileID: 0}
 --- !u!1 &2040172831
@@ -63777,9 +63780,11 @@ MonoBehaviour:
   m_AddDefaultGrabTransformers: 1
   drawerTransform: {fileID: 2216016697499137176}
   keySocket: {fileID: 3933860242529008262}
+  keyIndicatorLight: {fileID: 0}
   isLocked: 1
-  KeyIndicatiorLight: {fileID: 901229136}
+  drawerLimitZ: 0.8
   limitDistances: {x: 0.05, y: 0.05, z: 0}
+  drawerMoveClip: {fileID: 8300000, guid: 5a473077dfada7641998c47c8e78f28e, type: 3}
 --- !u!23 &8891624016798697810
 MeshRenderer:
   m_ObjectHideFlags: 0
