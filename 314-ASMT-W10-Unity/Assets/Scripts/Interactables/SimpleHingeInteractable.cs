@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class SimpleHingeInteractable : XRSimpleInteractable
 {
+    public UnityEvent<SimpleHingeInteractable> OnHingeSelected;
+    [SerializeField] AudioClip hingeMoveClip;
+    public AudioClip GetHingeMoveClip => hingeMoveClip;
+
     protected Transform grabHand;
 
     // Start is called before the first frame update
@@ -26,6 +31,7 @@ public class SimpleHingeInteractable : XRSimpleInteractable
     {
         base.OnSelectEntered(args);
         grabHand = args.interactorObject.transform;
+        OnHingeSelected?.Invoke(this);
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
